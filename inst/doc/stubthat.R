@@ -40,180 +40,180 @@ with_mock(GET = stub_of_get$f, status_code = stub_of_status_code$f,
 
 ## ----error=TRUE----------------------------------------------------------
 sum <- function(a, b = 1) return(a + b)
-stub_of_identify <- stub(sum)
+stub_of_sum <- stub(sum)
 
-stub_of_identify$expects(a = 2)
+stub_of_sum$expects(a = 2)
 
-stub_of_identify$f(2)
-stub_of_identify$f(3)
-
-## ----error=TRUE----------------------------------------------------------
-sum <- function(a, b = 1) return(a + b)
-stub_of_identify <- stub(sum)
-
-stub_of_identify$strictlyExpects(a = 2)
-stub_of_identify$f(2)
-
-## ----error=TRUE----------------------------------------------------------
-stub_of_identify$strictlyExpects(a = 2, b = 1)
-stub_of_identify$f(2)
+stub_of_sum$f(2)
+stub_of_sum$f(3)
 
 ## ----error=TRUE----------------------------------------------------------
 sum <- function(a, b = 1) return(a + b)
-stub_of_identify <- stub(sum)
+stub_of_sum <- stub(sum)
 
-stub_of_identify$onCall(3)$expects(a = 2)
+stub_of_sum$strictlyExpects(a = 2)
+stub_of_sum$f(2)
 
-stub_of_identify$f(100)
-stub_of_identify$f(100)
-stub_of_identify$f(100)
+## ----error=TRUE----------------------------------------------------------
+stub_of_sum$strictlyExpects(a = 2, b = 1)
+stub_of_sum$f(2)
 
 ## ----error=TRUE----------------------------------------------------------
 sum <- function(a, b = 1) return(a + b)
-stub_of_identify <- stub(sum)
+stub_of_sum <- stub(sum)
 
-stub_of_identify$onCall(3)$strictlyExpects(a = 2, b = 2)
+stub_of_sum$onCall(3)$expects(a = 2)
 
-stub_of_identify$f(2)
-stub_of_identify$f(2)
-stub_of_identify$f(2)
+stub_of_sum$f(100)
+stub_of_sum$f(100)
+stub_of_sum$f(100)
+
+## ----error=TRUE----------------------------------------------------------
+sum <- function(a, b = 1) return(a + b)
+stub_of_sum <- stub(sum)
+
+stub_of_sum$onCall(3)$strictlyExpects(a = 2, b = 2)
+
+stub_of_sum$f(2)
+stub_of_sum$f(2)
+stub_of_sum$f(2)
 
 ## ------------------------------------------------------------------------
 sum <- function(a, b = 1) return(a + b)
-stub_of_identify <- stub(sum)
+stub_of_sum <- stub(sum)
 
-stub_of_identify$returns(0)
+stub_of_sum$returns(0)
 
-stub_of_identify$f(2)
-
-## ------------------------------------------------------------------------
-sum <- function(a, b = 1) return(a + b)
-stub_of_identify <- stub(sum)
-
-stub_of_identify$onCall(2)$returns(0)
-
-stub_of_identify$f(2)
-stub_of_identify$f(2)
+stub_of_sum$f(2)
 
 ## ------------------------------------------------------------------------
 sum <- function(a, b = 1) return(a + b)
-stub_of_identify <- stub(sum)
+stub_of_sum <- stub(sum)
 
-stub_of_identify$withArgs(a = 2)$returns(0)
+stub_of_sum$onCall(2)$returns(0)
 
-stub_of_identify$f(1)
-stub_of_identify$f(2)
+stub_of_sum$f(2)
+stub_of_sum$f(2)
 
 ## ------------------------------------------------------------------------
 sum <- function(a, b = 1) return(a + b)
-stub_of_identify <- stub(sum)
+stub_of_sum <- stub(sum)
 
-stub_of_identify$withExactArgs(a = 2)$returns(0) # won't work because value for b is not defined
-stub_of_identify$withExactArgs(a = 2, b = 1)$returns(1)
+stub_of_sum$withArgs(a = 2)$returns(0)
 
-stub_of_identify$f(1)
-stub_of_identify$f(2)
+stub_of_sum$f(1)
+stub_of_sum$f(2)
+
+## ------------------------------------------------------------------------
+sum <- function(a, b = 1) return(a + b)
+stub_of_sum <- stub(sum)
+
+stub_of_sum$withExactArgs(a = 2)$returns(0) # won't work because value for b is not defined
+stub_of_sum$withExactArgs(a = 2, b = 1)$returns(1)
+
+stub_of_sum$f(1)
+stub_of_sum$f(2)
 
 ## ----error=TRUE----------------------------------------------------------
 sum <- function(a, b = 1) return(a + b)
-stub_of_identify <- stub(sum)
+stub_of_sum <- stub(sum)
 
-stub_of_identify$throws('some err msg')
+stub_of_sum$throws('some err msg')
 
-stub_of_identify$f(2)
-
-## ----error=TRUE----------------------------------------------------------
-sum <- function(a, b = 1) return(a + b)
-stub_of_identify <- stub(sum)
-
-stub_of_identify$onCall(2)$throws('some err msg')
-
-stub_of_identify$f(0)
-stub_of_identify$f(0)
+stub_of_sum$f(2)
 
 ## ----error=TRUE----------------------------------------------------------
 sum <- function(a, b = 1) return(a + b)
-stub_of_identify <- stub(sum)
+stub_of_sum <- stub(sum)
 
-stub_of_identify$withArgs(a = 2)$throws('some err msg')
+stub_of_sum$onCall(2)$throws('some err msg')
 
-stub_of_identify$f(1)
-stub_of_identify$f(2)
-
-## ----error=TRUE----------------------------------------------------------
-sum <- function(a, b = 1) return(a + b)
-stub_of_identify <- stub(sum)
-
-stub_of_identify$withExactArgs(a = 2)$throws('good') # won't work because value for b is not defined
-stub_of_identify$withExactArgs(a = 2, b = 1)$throws('nice')
-
-stub_of_identify$f(1)
-stub_of_identify$f(2)
+stub_of_sum$f(0)
+stub_of_sum$f(0)
 
 ## ----error=TRUE----------------------------------------------------------
 sum <- function(a, b = 1) return(a + b)
-stub_of_identify <- stub(sum)
+stub_of_sum <- stub(sum)
 
-ans <- stub_of_identify$f(3)
-ans <- stub_of_identify$f(3)
-stub_of_identify$calledTimes()
-ans <- stub_of_identify$f(3)
-stub_of_identify$calledTimes()
+stub_of_sum$withArgs(a = 2)$throws('some err msg')
 
-## ----error=TRUE----------------------------------------------------------
-sum <- function(a, b = 1) return(a + b)
-stub_of_identify <- stub(sum)
-
-stub_of_identify$onCall(1)$expects(a = 1)$returns('good')
-stub_of_identify$onCall(3)$expects(a = 3)$returns('nice')
-
-stub_of_identify$f(3)
-stub_of_identify$f(3)
-stub_of_identify$f(3)
+stub_of_sum$f(1)
+stub_of_sum$f(2)
 
 ## ----error=TRUE----------------------------------------------------------
 sum <- function(a, b = 1) return(a + b)
-stub_of_identify <- stub(sum)
+stub_of_sum <- stub(sum)
 
-stub_of_identify$onCall(1)$expects(a = 1)
-stub_of_identify$onCall(1)$returns('good')
-stub_of_identify$onCall(3)$returns('nice')
-stub_of_identify$onCall(3)$expects(a = 3)
+stub_of_sum$withExactArgs(a = 2)$throws('good') # won't work because value for b is not defined
+stub_of_sum$withExactArgs(a = 2, b = 1)$throws('nice')
 
-stub_of_identify$f(3)
-stub_of_identify$f(3)
-stub_of_identify$f(3)
+stub_of_sum$f(1)
+stub_of_sum$f(2)
 
 ## ----error=TRUE----------------------------------------------------------
 sum <- function(a, b = 1) return(a + b)
-stub_of_identify <- stub(sum)
+stub_of_sum <- stub(sum)
 
-stub_of_identify$onCall(1)$strictlyExpects(a = 3)$returns('good')
-stub_of_identify$onCall(3)$strictlyExpects(a = 3, b = 1)$returns('nice')
-
-stub_of_identify$f(3)
-stub_of_identify$f(3)
-stub_of_identify$f(3)
-
-## ----error=TRUE----------------------------------------------------------
-sum <- function(a, b = 1) return(a + b)
-stub_of_identify <- stub(sum)
-
-stub_of_identify$onCall(1)$expects(a = 1)$throws('good')
-stub_of_identify$onCall(3)$expects(a = 3)$throws('nice')
-
-stub_of_identify$f(3)
-stub_of_identify$f(3)
-stub_of_identify$f(3)
+ans <- stub_of_sum$f(3)
+ans <- stub_of_sum$f(3)
+stub_of_sum$calledTimes()
+ans <- stub_of_sum$f(3)
+stub_of_sum$calledTimes()
 
 ## ----error=TRUE----------------------------------------------------------
 sum <- function(a, b = 1) return(a + b)
-stub_of_identify <- stub(sum)
+stub_of_sum <- stub(sum)
 
-stub_of_identify$onCall(1)$strictlyExpects(a = 3)$throws('good')
-stub_of_identify$onCall(3)$strictlyExpects(a = 3, b = 1)$throws('nice')
+stub_of_sum$onCall(1)$expects(a = 1)$returns('good')
+stub_of_sum$onCall(3)$expects(a = 3)$returns('nice')
 
-stub_of_identify$f(3)
-stub_of_identify$f(3)
-stub_of_identify$f(3)
+stub_of_sum$f(3)
+stub_of_sum$f(3)
+stub_of_sum$f(3)
+
+## ----error=TRUE----------------------------------------------------------
+sum <- function(a, b = 1) return(a + b)
+stub_of_sum <- stub(sum)
+
+stub_of_sum$onCall(1)$expects(a = 1)
+stub_of_sum$onCall(1)$returns('good')
+stub_of_sum$onCall(3)$returns('nice')
+stub_of_sum$onCall(3)$expects(a = 3)
+
+stub_of_sum$f(3)
+stub_of_sum$f(3)
+stub_of_sum$f(3)
+
+## ----error=TRUE----------------------------------------------------------
+sum <- function(a, b = 1) return(a + b)
+stub_of_sum <- stub(sum)
+
+stub_of_sum$onCall(1)$strictlyExpects(a = 3)$returns('good')
+stub_of_sum$onCall(3)$strictlyExpects(a = 3, b = 1)$returns('nice')
+
+stub_of_sum$f(3)
+stub_of_sum$f(3)
+stub_of_sum$f(3)
+
+## ----error=TRUE----------------------------------------------------------
+sum <- function(a, b = 1) return(a + b)
+stub_of_sum <- stub(sum)
+
+stub_of_sum$onCall(1)$expects(a = 1)$throws('good')
+stub_of_sum$onCall(3)$expects(a = 3)$throws('nice')
+
+stub_of_sum$f(3)
+stub_of_sum$f(3)
+stub_of_sum$f(3)
+
+## ----error=TRUE----------------------------------------------------------
+sum <- function(a, b = 1) return(a + b)
+stub_of_sum <- stub(sum)
+
+stub_of_sum$onCall(1)$strictlyExpects(a = 3)$throws('good')
+stub_of_sum$onCall(3)$strictlyExpects(a = 3, b = 1)$throws('nice')
+
+stub_of_sum$f(3)
+stub_of_sum$f(3)
+stub_of_sum$f(3)
 

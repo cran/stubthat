@@ -1,7 +1,7 @@
+library(stubthat)
 library(testthat)
 
 simpf <- function(a = 1, b, d, ...) return(5)
-not_expected_error <- 'Function is called with arguments different from expected!'
 
 test_that('returns: Always returns specified value', {
   stub_of_simpf <- stub(simpf)
@@ -26,14 +26,37 @@ test_that('strictlyExpects: Always checks the function call with expected argume
   stub_of_simpf <- stub(simpf)
   stub_of_simpf$strictlyExpects(a = 1, b = 2, d = 3, c = 4)
   stub_func <- stub_of_simpf$f
-
+  
   expect_null(stub_func(1, 2, 3, c = 4))
   expect_null(stub_func(c = 4, 2, a = 1, 3))
+  
+  expect_error(stub_func(2, 3, 3, c = 4))
+  expect_error(stub_func(2, 3, 3))
+  expect_error(stub_func(c = 4, a = 3, 1, 2))
+  expect_error(stub_func(a = 3, 1, 2, c = 5, e = 'f'))
+})
 
-  expect_error(stub_func(2, 3, 3, c = 4), not_expected_error)
-  expect_error(stub_func(2, 3, 3), not_expected_error)
-  expect_error(stub_func(c = 4, a = 3, 1, 2), not_expected_error)
-  expect_error(stub_func(a = 3, 1, 2), not_expected_error)
+test_that('strictlyExpects: Always checks the function call with expected arguments (exact set) test 2', {
+  stub_of_simpf <- stub(simpf)
+  stub_of_simpf$strictlyExpects(a = 1, b = 2, d = 3, 4, 6)
+  stub_func <- stub_of_simpf$f
+  
+  expect_null(stub_func(1, 2, 3, 4, 6))
+  expect_error(stub_func(1, 2, 3, 4, 5))
+  expect_error(stub_func(1, 2, 3, c = 4))
+  expect_error(stub_func(1, 2, 3, 4, 6, 5))
+  expect_null(stub_func(1, 2, 3, 6, 4))
+})
+
+test_that('strictlyExpects: Always checks the function call with expected arguments (exact set) test 3', {
+  stub_of_simpf <- stub(function(...) return(1))
+  stub_of_simpf$strictlyExpects(1, 2)
+  stub_func <- stub_of_simpf$f
+  
+  expect_null(stub_func(1, 2))
+  expect_null(stub_func(2, 1))
+  expect_error(stub_func(2, 1, 3))
+  expect_error(stub_func(1, 2, a = 'a'))
 })
 
 test_that('strictlyExpects & returns: Always checks the function call with expected arguments (exact set) and returns the specified value', {
@@ -41,13 +64,13 @@ test_that('strictlyExpects & returns: Always checks the function call with expec
   stub_of_simpf$strictlyExpects(a = 1, b = 2, d = 3, c = 4)
   stub_of_simpf$returns('a')
   stub_func <- stub_of_simpf$f
-
+  
   expect_equal(stub_func(1, 2, 3, c = 4), 'a')
   expect_equal(stub_func(c = 4, 2, a = 1, 3), 'a')
-
-  expect_error(stub_func(2, 3, 3, c = 4), not_expected_error)
-  expect_error(stub_func(2, 3, 3), not_expected_error)
-  expect_error(stub_func(c = 4, a = 3, 1, 2), not_expected_error)
+  
+  expect_error(stub_func(2, 3, 3, c = 4))
+  expect_error(stub_func(2, 3, 3))
+  expect_error(stub_func(c = 4, a = 3, 1, 2))
 })
 
 test_that('strictlyExpects & throws: Always checks the function call with expected arguments (exact set) and throws error with specified msg', {
@@ -55,13 +78,13 @@ test_that('strictlyExpects & throws: Always checks the function call with expect
   stub_of_simpf$strictlyExpects(a = 1, b = 2, d = 3, c = 4)
   stub_of_simpf$throws('err msg')
   stub_func <- stub_of_simpf$f
-
+  
   expect_error(stub_func(1, 2, 3, c = 4), 'err msg')
   expect_error(stub_func(c = 4, 2, a = 1, 3), 'err msg')
-
-  expect_error(stub_func(2, 3, 3, c = 4), not_expected_error)
-  expect_error(stub_func(2, 3, 3), not_expected_error)
-  expect_error(stub_func(c = 4, a = 3, 1, 2), not_expected_error)
+  
+  expect_error(stub_func(2, 3, 3, c = 4))
+  expect_error(stub_func(2, 3, 3))
+  expect_error(stub_func(c = 4, a = 3, 1, 2))
 })
 
 test_that('expects: Always checks if the expected arguments are part of the function call', {
@@ -72,10 +95,34 @@ test_that('expects: Always checks if the expected arguments are part of the func
   expect_null(stub_func(1, 2, 3, c = 4))
   expect_null(stub_func(c = 'b', 2, a = 1, list(a = 1)))
   
-  expect_error(stub_func(2, 3, 3, c = 4), not_expected_error)
-  expect_error(stub_func(2, 3, 3), not_expected_error)
-  expect_error(stub_func(c = 4, a = 3, 1, 2), not_expected_error)
-  expect_error(stub_func(a = 3, 1, 2), not_expected_error)
+  expect_error(stub_func(2, 3, 3, c = 4))
+  expect_error(stub_func(2, 3, 3))
+  expect_error(stub_func(c = 4, a = 3, 1, 2))
+  expect_error(stub_func(a = 3, 1, 2))
+})
+
+test_that('expects: Always checks if the expected arguments are part of the function call test 2', {
+  stub_of_simpf <- stub(simpf)
+  stub_of_simpf$expects(a = 1, b = 2, d = 3, 4, 'a')
+  stub_func <- stub_of_simpf$f
+  
+  expect_error(stub_func(1, 2, 3, 4))
+  expect_null(stub_func(1, 2, 3, 4, 'a', 5))
+  expect_null(stub_func(1, 2, 3, 'b', 'a', 4))
+})
+
+test_that('expects: Always checks if the expected arguments are part of the function call test 3', {
+  stub_of_simpf <- stub(function(...) return(1))
+  stub_of_simpf$expects(1, 2)
+  stub_func <- stub_of_simpf$f
+  
+  expect_null(stub_func(1, 2))
+  expect_null(stub_func(2, 1))
+  expect_error(stub_func(1))
+  expect_error(stub_func(2))
+  expect_null(stub_func(2, 1, 3))
+  expect_null(stub_func(1, 2, a = 'a'))
+  expect_error(stub_func(1, b = '2'))
 })
 
 test_that('expects & returns: Always checks for expected arguments and returns the specified value', {
@@ -87,9 +134,9 @@ test_that('expects & returns: Always checks for expected arguments and returns t
   expect_equal(stub_func(1, 2, 3, c = list(a = '1')), 'a')
   expect_equal(stub_func(c = list(a = '1'), 2, a = 1, 3), 'a')
   
-  expect_error(stub_func(2, 3, 3, c = 4), not_expected_error)
-  expect_error(stub_func(2, 3, 3), not_expected_error)
-  expect_error(stub_func(c = 4, a = 3, 1, 2), not_expected_error)
+  expect_error(stub_func(2, 3, 3, c = 4))
+  expect_error(stub_func(2, 3, 3))
+  expect_error(stub_func(c = 4, a = 3, 1, 2))
 })
 
 test_that('expects & throws: Always checks for expected arguments and throws error with specified msg', {
@@ -101,7 +148,7 @@ test_that('expects & throws: Always checks for expected arguments and throws err
   expect_error(stub_func(1, 2, 3, c = 'p'), 'err msg')
   expect_error(stub_func(c = 'p', list(1, 2, 3), a = 1, 3), 'err msg')
   
-  expect_error(stub_func(2, 3, 3, c = 4), not_expected_error)
-  expect_error(stub_func(2, 3, 3), not_expected_error)
-  expect_error(stub_func(c = 4, a = 3, 1, 2), not_expected_error)
+  expect_error(stub_func(2, 3, 3, c = 4))
+  expect_error(stub_func(2, 3, 3))
+  expect_error(stub_func(c = 4, a = 3, 1, 2))
 })
