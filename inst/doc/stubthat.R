@@ -1,16 +1,6 @@
 ## ---- echo = FALSE, message = FALSE--------------------------------------
 knitr::opts_chunk$set(collapse = T, comment = "#>")
 
-# installing packages needed for this document
-# installing only if the package is not already available
-if (!require('httr')) {
-  install.packages('httr')
-}
-
-if (!require('mockr')) {
-  install.packages('mockr')
-}
-
 # loading stubthat
 library(stubthat)
 
@@ -25,32 +15,34 @@ jedi_or_sith_stub$withArgs(x = 'Luke')$returns('Jedi')
 jedi_or_sith('Luke')
 jedi_or_sith_stub$f('Luke')
 
-## ------------------------------------------------------------------------
-library(httr) # provides the GET and status_code functions
+## ----eval=FALSE----------------------------------------------------------
+#  library(httr) # provides the GET and status_code functions
+#  
+#  url_downloader <- function(url) GET(url)
+#  
+#  check_api_endpoint_status <- function(url) {
+#    response <- url_downloader(url)
+#    response_status <- status_code(response)
+#    ifelse(response_status == 200, 'up', 'down')
+#  }
 
-url_downloader <- function(url) GET(url)
-
-check_api_endpoint_status <- function(url) {
-  response <- url_downloader(url)
-  response_status <- status_code(response)
-  ifelse(response_status == 200, 'up', 'down')
-}
-
-## ------------------------------------------------------------------------
-url_downloader_stub <- stub(url_downloader)
-url_downloader_stub$withArgs(url = 'good url')$returns(200)
-url_downloader_stub$withArgs(url = 'bad url')$returns(404)
-
-# testthat package provides the expect_equal function
-# mockr package provides the with_mock function
-
-check_api_endpoint_status_tester <- function(x) {
-  mockr::with_mock(url_downloader = url_downloader_stub$f,
-                   check_api_endpoint_status(x))
-}
-
-(testthat::expect_equal(check_api_endpoint_status_tester('good url'), 'up'))
-(testthat::expect_equal(check_api_endpoint_status_tester('bad url'),  'down'))
+## ----eval=FALSE----------------------------------------------------------
+#  url_downloader_stub <- stub(url_downloader)
+#  url_downloader_stub$withArgs(url = 'good url')$returns(200)
+#  url_downloader_stub$withArgs(url = 'bad url')$returns(404)
+#  
+#  # testthat package provides the expect_equal function
+#  # mockr package provides the with_mock function
+#  
+#  check_api_endpoint_status_tester <- function(x) {
+#    mockr::with_mock(url_downloader = url_downloader_stub$f,
+#                     check_api_endpoint_status(x))
+#  }
+#  
+#  (testthat::expect_equal(check_api_endpoint_status_tester('good url'), 'up'))
+#  #> [1] "up"
+#  (testthat::expect_equal(check_api_endpoint_status_tester('bad url'),  'down'))
+#  #> [1] "down"
 
 ## ----eval=FALSE----------------------------------------------------------
 #  f1 <- function(...) {
